@@ -17,11 +17,22 @@ return require('packer').startup(function(use)
   use 'ggandor/lightspeed.nvim'
   use 'tpope/vim-repeat'
 
+  use {'ms-jpq/coq_nvim', branch = 'coq'}
+  use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+  use {'ms-jpq/coq.thirdparty', branch = '3p'}
+
   use {
   'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  requires = { 'kyazdani42/nvim-web-devicons', opt = false }
   }
-  
+  use 'kyazdani42/nvim-web-devicons'
+
+  use 'mfussenegger/nvim-jdtls'
+
+  use 'bluz71/vim-nightfly-colors'
+
+  use 'romgrk/barbar.nvim'
+
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
   if packer_bootstrap then
