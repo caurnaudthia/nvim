@@ -94,6 +94,16 @@ _G.packer_plugins = {
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\coq_nvim",
     url = "https://github.com/ms-jpq/coq_nvim"
   },
+  ["horizon.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\horizon.nvim",
+    url = "https://github.com/lunarvim/horizon.nvim"
+  },
+  ["indent-blankline.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\indent-blankline.nvim",
+    url = "https://github.com/lukas-reineke/indent-blankline.nvim"
+  },
   ["lightspeed.nvim"] = {
     loaded = true,
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lightspeed.nvim",
@@ -103,6 +113,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
+  ["neodev.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\neodev.nvim",
+    url = "https://github.com/folke/neodev.nvim"
+  },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
   },
   ["nvim-jdtls"] = {
     loaded = true,
@@ -118,11 +138,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
-  },
-  ["vim-nightfly-colors"] = {
-    loaded = true,
-    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-nightfly-colors",
-    url = "https://github.com/bluz71/vim-nightfly-colors"
   },
   ["vim-repeat"] = {
     loaded = true,

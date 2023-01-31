@@ -14,12 +14,16 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
+  use 'lukas-reineke/indent-blankline.nvim'
+
   use 'ggandor/lightspeed.nvim'
   use 'tpope/vim-repeat'
 
   use {'ms-jpq/coq_nvim', branch = 'coq'}
   use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
   use {'ms-jpq/coq.thirdparty', branch = '3p'}
+
+  use 'folke/neodev.nvim'
 
   use {
   'nvim-lualine/lualine.nvim',
@@ -28,8 +32,13 @@ return require('packer').startup(function(use)
   use 'kyazdani42/nvim-web-devicons'
 
   use 'mfussenegger/nvim-jdtls'
+  use 'mfussenegger/nvim-dap'
 
-  use 'bluz71/vim-nightfly-colors'
+  -- use 'bluz71/vim-nightfly-colors'
+  -- use 'drewtempelmeyer/palenight.vim'
+  -- use 'unrealjo/neovim-purple'
+  -- use 'edeneast/nightfox.nvim'
+  use 'lunarvim/horizon.nvim'
 
   use 'romgrk/barbar.nvim'
 

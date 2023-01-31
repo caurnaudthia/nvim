@@ -5,6 +5,8 @@ local ok2, plugins = pcall(require, 'plugins')
 if not ok2 then print('plugins file failed to load') end
 local ok3, lualine = pcall(require, 'lualine')
 if not ok3 then print('lualine failed to load') end
+local ok4, blankline = pcall(require, 'blankline')
+if not ok4 then print('blankline failed to load') end
 
 -- options
 local options = 
@@ -44,6 +46,14 @@ local options =
 
 funcs.setAll(options)
 
+-- dap
+-- open
+funcs.nmap('<A-C-j>', '<CMD>lua require("jdtls-dap").setup_dap_main_class_configs()<CR>') -- discover main files
+funcs.nmap('<A-C-k>', '<CMD>lua require("dap").toggle_breakpoint()')
+funcs.nmap('<A-C-l>', '<CMD>lua require("dap").step_over()')
+funcs.nmap('<A-C-h>', '<CMD>lua require("dap").step_into()')
+funcs.nmap('<A-C-p>', '<CMD>lua require("dap").repl.open()')
+
 -- barbar
 -- move to prev/next
 funcs.nmap('<A-,>', '<CMD>BufferPrevious<CR>')
@@ -66,6 +76,7 @@ funcs.nmap('<A-9>', '<CMD>BufferGoto 9<CR>')
 funcs.nmap('<A-0>', '<CMD>BufferLast<CR>')
 
 -- wipeout commands
+funcs.nmap('<c-w>', '<CMD>BufferClose<CR>')
 funcs.nmap('<c-?>', '<CMD>BufferCloseAllButCurrent<CR>')
 funcs.nmap('<c-,>', '<CMD>BufferCloseBuffersLeft<CR>')
 funcs.nmap('<c-.>', '<CMD>BufferCloseBuffersRight<CR>')
@@ -92,11 +103,16 @@ vim.cmd([[
 -- colorscheme
 vim.cmd([[
   syntax enable
-  colorscheme nightfly
+  colorscheme horizon
 ]])
-
 -- lualine
 
 lualine.setup {
-  options = { theme = require'lualine.themes.nightfly' }
+  options = { theme = require'lualine.themes.horizon' }
+}
+
+require("indent_blankline").setup {
+    -- for example, context is off by default, use this to turn it on
+    show_current_context = true,
+    show_current_context_start = true,
 }
