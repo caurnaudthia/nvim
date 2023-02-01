@@ -114,21 +114,6 @@ _G.packer_plugins = {
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lualine.nvim",
     url = "https://github.com/nvim-lualine/lualine.nvim"
   },
-  ["neodev.nvim"] = {
-    loaded = true,
-    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\neodev.nvim",
-    url = "https://github.com/folke/neodev.nvim"
-  },
-  ["nvim-dap"] = {
-    loaded = true,
-    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-dap",
-    url = "https://github.com/mfussenegger/nvim-dap"
-  },
-  ["nvim-jdtls"] = {
-    loaded = true,
-    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-jdtls",
-    url = "https://github.com/mfussenegger/nvim-jdtls"
-  },
   ["nvim-web-devicons"] = {
     loaded = true,
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-web-devicons",

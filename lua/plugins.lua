@@ -12,35 +12,33 @@ end
 local packer_bootstrap = ensure_packer()
 
 return require('packer').startup(function(use)
+  -- package manager
   use 'wbthomason/packer.nvim'
 
+  -- display
   use 'lukas-reineke/indent-blankline.nvim'
-
-  use 'ggandor/lightspeed.nvim'
-  use 'tpope/vim-repeat'
-
-  use {'ms-jpq/coq_nvim', branch = 'coq'}
-  use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
-  use {'ms-jpq/coq.thirdparty', branch = '3p'}
-
-  use 'folke/neodev.nvim'
-
   use {
   'nvim-lualine/lualine.nvim',
   requires = { 'kyazdani42/nvim-web-devicons', opt = false }
   }
   use 'kyazdani42/nvim-web-devicons'
+  use 'romgrk/barbar.nvim'
+  -- navigation
+  use 'ggandor/lightspeed.nvim'
+  use 'tpope/vim-repeat'
 
-  use 'mfussenegger/nvim-jdtls'
-  use 'mfussenegger/nvim-dap'
+  -- completion
+  use {'ms-jpq/coq_nvim', branch = 'coq'}
+  use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+  use {'ms-jpq/coq.thirdparty', branch = '3p'}
 
+
+  -- themes
   -- use 'bluz71/vim-nightfly-colors'
   -- use 'drewtempelmeyer/palenight.vim'
   -- use 'unrealjo/neovim-purple'
   -- use 'edeneast/nightfox.nvim'
   use 'lunarvim/horizon.nvim'
-
-  use 'romgrk/barbar.nvim'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

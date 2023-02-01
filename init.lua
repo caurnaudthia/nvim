@@ -49,10 +49,11 @@ funcs.setAll(options)
 -- dap
 -- open
 funcs.nmap('<A-C-j>', '<CMD>lua require("jdtls-dap").setup_dap_main_class_configs()<CR>') -- discover main files
-funcs.nmap('<A-C-k>', '<CMD>lua require("dap").toggle_breakpoint()')
-funcs.nmap('<A-C-l>', '<CMD>lua require("dap").step_over()')
-funcs.nmap('<A-C-h>', '<CMD>lua require("dap").step_into()')
-funcs.nmap('<A-C-p>', '<CMD>lua require("dap").repl.open()')
+funcs.nmap('<A-C-k>', '<CMD>lua require("dap").toggle_breakpoint()<CR>')
+funcs.nmap('<A-C-l>', '<CMD>lua require("dap").step_over()<CR>')
+funcs.nmap('<A-C-h>', '<CMD>lua require("dap").step_into()<CR>')
+funcs.nmap('<A-C-p>', '<CMD>lua require("dap").repl.open()<CR>')
+funcs.nmap('<A-C-n>', '<CMD>JdtShowLog<CR>')
 
 -- barbar
 -- move to prev/next
@@ -97,14 +98,23 @@ vim.cmd([[
     autocmd!
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   augroup end
-  let g:coq_settings = { 'auto_start': 'shut-up' }
 ]])
 
+vim.g.coq_settings = {["auto_start"] = "shut-up", ["clients.lsp.enabled"] = true}
+--local nvim_lsp = require('lspconfig')
+--local coq = require("coq")
+--local servers = {{require('jdtls'), nil}}
+--for server, config in pairs(servers) do        local cfg = nvim_lsp[server]
+  --  if not (cfg and cfg.cmd and vim.fn.executable(cfg.cmd[1]) == 1) then
+  --      print(server .. ": cmd not found: " .. vim.inspect(cfg.cmd))
+ --   end
+--end
 -- colorscheme
 vim.cmd([[
   syntax enable
   colorscheme horizon
 ]])
+
 -- lualine
 
 lualine.setup {
