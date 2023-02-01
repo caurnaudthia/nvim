@@ -94,10 +94,15 @@ _G.packer_plugins = {
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\coq_nvim",
     url = "https://github.com/ms-jpq/coq_nvim"
   },
-  ["horizon.nvim"] = {
+  ["feline.nvim"] = {
     loaded = true,
-    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\horizon.nvim",
-    url = "https://github.com/lunarvim/horizon.nvim"
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\feline.nvim",
+    url = "https://github.com/feline-nvim/feline.nvim"
+  },
+  ["gitsigns.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\gitsigns.nvim",
+    url = "https://github.com/lewis6991/gitsigns.nvim"
   },
   ["indent-blankline.nvim"] = {
     loaded = true,
@@ -109,10 +114,10 @@ _G.packer_plugins = {
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lightspeed.nvim",
     url = "https://github.com/ggandor/lightspeed.nvim"
   },
-  ["lualine.nvim"] = {
+  ["nightfox.nvim"] = {
     loaded = true,
-    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\lualine.nvim",
-    url = "https://github.com/nvim-lualine/lualine.nvim"
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nightfox.nvim",
+    url = "https://github.com/EdenEast/nightfox.nvim"
   },
   ["nvim-web-devicons"] = {
     loaded = true,
@@ -124,14 +129,44 @@ _G.packer_plugins = {
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\plenary.nvim",
+    url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["tabby.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\tabby.nvim",
+    url = "https://github.com/nanozuki/tabby.nvim"
+  },
+  ["telescope-fzf-native.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\telescope-fzf-native.nvim",
+    url = "https://github.com/nvim-telescope/telescope-fzf-native.nvim"
+  },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\telescope.nvim",
+    url = "https://github.com/nvim-telescope/telescope.nvim"
+  },
   ["vim-repeat"] = {
     loaded = true,
     path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\vim-repeat",
     url = "https://github.com/tpope/vim-repeat"
+  },
+  ["which-key.nvim"] = {
+    config = { "\27LJ\2\np\0\0\3\0\a\0\0146\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0)\1,\1=\1\3\0006\0\4\0'\2\5\0B\0\2\0029\0\6\0B\0\1\1K\0\1\0\nsetup\14which-key\frequire\15timeoutlen\ftimeout\6o\bvim\0" },
+    loaded = true,
+    path = "C:\\Users\\derek\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\which-key.nvim",
+    url = "https://github.com/folke/which-key.nvim"
   }
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: which-key.nvim
+time([[Config for which-key.nvim]], true)
+try_loadstring("\27LJ\2\np\0\0\3\0\a\0\0146\0\0\0009\0\1\0+\1\2\0=\1\2\0006\0\0\0009\0\1\0)\1,\1=\1\3\0006\0\4\0'\2\5\0B\0\2\0029\0\6\0B\0\1\1K\0\1\0\nsetup\14which-key\frequire\15timeoutlen\ftimeout\6o\bvim\0", "config", "which-key.nvim")
+time([[Config for which-key.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then

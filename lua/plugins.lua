@@ -17,20 +17,24 @@ return require('packer').startup(function(use)
 
   -- display
   use 'lukas-reineke/indent-blankline.nvim'
-  use {
-  'nvim-lualine/lualine.nvim',
-  requires = { 'kyazdani42/nvim-web-devicons', opt = false }
-  }
-  use 'kyazdani42/nvim-web-devicons'
   use 'romgrk/barbar.nvim'
+  use 'feline-nvim/feline.nvim'
+  
   -- navigation
   use 'ggandor/lightspeed.nvim'
+  use 'nanozuki/tabby.nvim'
   use 'tpope/vim-repeat'
+  use {'folke/which-key.nvim', config = function()
+    vim.o.timeout = true
+    vim.o.timeoutlen = 300
+    require("which-key").setup() end}
+  use {'nvim-telescope/telescope.nvim', tag = '0.1.1'}
+    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
   -- completion
   use {'ms-jpq/coq_nvim', branch = 'coq'}
-  use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
-  use {'ms-jpq/coq.thirdparty', branch = '3p'}
+    use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+    use {'ms-jpq/coq.thirdparty', branch = '3p'}
 
 
   -- themes
@@ -38,7 +42,13 @@ return require('packer').startup(function(use)
   -- use 'drewtempelmeyer/palenight.vim'
   -- use 'unrealjo/neovim-purple'
   -- use 'edeneast/nightfox.nvim'
-  use 'lunarvim/horizon.nvim'
+  -- use 'lunarvim/horizon.nvim'
+  use 'EdenEast/nightfox.nvim'
+
+  -- misc
+  use 'lewis6991/gitsigns.nvim'
+  use 'nvim-lua/plenary.nvim'
+  use 'kyazdani42/nvim-web-devicons'
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

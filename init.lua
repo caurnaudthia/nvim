@@ -3,9 +3,7 @@ local ok1, funcs = pcall(require, 'functions.luarc')
 if not ok1 then print('luarc functions failed to load') end
 local ok2, plugins = pcall(require, 'plugins')
 if not ok2 then print('plugins file failed to load') end
-local ok3, lualine = pcall(require, 'lualine')
-if not ok3 then print('lualine failed to load') end
-local ok4, blankline = pcall(require, 'blankline')
+local ok4, blankline = pcall(require, 'indent_blankline')
 if not ok4 then print('blankline failed to load') end
 
 -- options
@@ -27,6 +25,7 @@ local options =
   signcolumn = 'yes', -- error column
   cursorline = true, -- highlight cursor line
   cc = '100', -- column size indicator
+  showtabline = 2, -- always show the tab line
 
   -- search
   showmatch = true, -- show matches
@@ -55,7 +54,6 @@ funcs.nmap('<A-C-h>', '<CMD>lua require("dap").step_into()<CR>')
 funcs.nmap('<A-C-p>', '<CMD>lua require("dap").repl.open()<CR>')
 funcs.nmap('<A-C-n>', '<CMD>JdtShowLog<CR>')
 
--- barbar
 -- move to prev/next
 funcs.nmap('<A-,>', '<CMD>BufferPrevious<CR>')
 funcs.nmap('<A-.>', '<CMD>BufferNext<CR>')
@@ -93,6 +91,14 @@ funcs.nmap('<Space>bd', '<CMD>BufferOrderByDirectory<CR>')
 funcs.nmap('<Space>bl', '<CMD>BufferOrderByLanguage<CR>')
 funcs.nmap('<Space>bw', '<CMD>BufferOrderByWindowNumber<CR>')
 
+-- colorscheme
+vim.cmd([[
+  syntax enable
+  colorscheme duskfox
+]])
+
+-- plugin initialization
+
 vim.cmd([[
   augroup packer_user_config
     autocmd!
@@ -101,28 +107,15 @@ vim.cmd([[
 ]])
 
 vim.g.coq_settings = {["auto_start"] = "shut-up", ["clients.lsp.enabled"] = true}
---local nvim_lsp = require('lspconfig')
---local coq = require("coq")
---local servers = {{require('jdtls'), nil}}
---for server, config in pairs(servers) do        local cfg = nvim_lsp[server]
-  --  if not (cfg and cfg.cmd and vim.fn.executable(cfg.cmd[1]) == 1) then
-  --      print(server .. ": cmd not found: " .. vim.inspect(cfg.cmd))
- --   end
---end
--- colorscheme
-vim.cmd([[
-  syntax enable
-  colorscheme horizon
-]])
-
--- lualine
-
-lualine.setup {
-  options = { theme = require'lualine.themes.horizon' }
-}
 
 require("indent_blankline").setup {
     -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = true,
+    show_current_context = false,
+    show_current_context_start = false,
 }
+
+-- appearance
+
+require('gitsigns').setup()
+require('ui.tabby')
+require('ui.feline')
