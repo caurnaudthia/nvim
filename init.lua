@@ -45,52 +45,6 @@ local options =
 
 funcs.setAll(options)
 
--- dap
--- open
-funcs.nmap('<A-C-j>', '<CMD>lua require("jdtls-dap").setup_dap_main_class_configs()<CR>') -- discover main files
-funcs.nmap('<A-C-k>', '<CMD>lua require("dap").toggle_breakpoint()<CR>')
-funcs.nmap('<A-C-l>', '<CMD>lua require("dap").step_over()<CR>')
-funcs.nmap('<A-C-h>', '<CMD>lua require("dap").step_into()<CR>')
-funcs.nmap('<A-C-p>', '<CMD>lua require("dap").repl.open()<CR>')
-funcs.nmap('<A-C-n>', '<CMD>JdtShowLog<CR>')
-
--- move to prev/next
-funcs.nmap('<A-,>', '<CMD>BufferPrevious<CR>')
-funcs.nmap('<A-.>', '<CMD>BufferNext<CR>')
-
--- reorder to prev/next
-funcs.nmap('<A-<>', '<CMD>BufferMovePrevious<CR>')
-funcs.nmap('<A->>', '<CMD>BufferMoveNext<CR>')
-
--- goto buffer in position
-funcs.nmap('<A-1>', '<CMD>BufferGoto 1<CR>')
-funcs.nmap('<A-2>', '<CMD>BufferGoto 2<CR>')
-funcs.nmap('<A-3>', '<CMD>BufferGoto 3<CR>')
-funcs.nmap('<A-4>', '<CMD>BufferGoto 4<CR>')
-funcs.nmap('<A-5>', '<CMD>BufferGoto 5<CR>')
-funcs.nmap('<A-6>', '<CMD>BufferGoto 6<CR>')
-funcs.nmap('<A-7>', '<CMD>BufferGoto 7<CR>')
-funcs.nmap('<A-8>', '<CMD>BufferGoto 1<CR>')
-funcs.nmap('<A-9>', '<CMD>BufferGoto 9<CR>')
-funcs.nmap('<A-0>', '<CMD>BufferLast<CR>')
-
--- wipeout commands
-funcs.nmap('<c-w>', '<CMD>BufferClose<CR>')
-funcs.nmap('<c-?>', '<CMD>BufferCloseAllButCurrent<CR>')
-funcs.nmap('<c-,>', '<CMD>BufferCloseBuffersLeft<CR>')
-funcs.nmap('<c-.>', '<CMD>BufferCloseBuffersRight<CR>')
-funcs.nmap('<c-<>', '<CMD>BufferCloseAllButPinned<CR>')
-funcs.nmap('<c->>', '<CMD>BufferCloseAllButCurrentOrPinned<CR>')
-
--- buffer-picking mode
-funcs.nmap('<C-p>', '<CMD>BufferPick<CR>')
-
--- autosort by...
-funcs.nmap('<Space>bb', '<CMD>BufferOrderByBufferNumber<CR>')
-funcs.nmap('<Space>bd', '<CMD>BufferOrderByDirectory<CR>')
-funcs.nmap('<Space>bl', '<CMD>BufferOrderByLanguage<CR>')
-funcs.nmap('<Space>bw', '<CMD>BufferOrderByWindowNumber<CR>')
-
 -- colorscheme
 vim.cmd([[
   syntax enable
@@ -107,6 +61,8 @@ vim.cmd([[
 ]])
 
 vim.g.coq_settings = {["auto_start"] = "shut-up", ["clients.lsp.enabled"] = true}
+require('mason').setup()
+require('mason-lspconfig').setup()
 
 require("indent_blankline").setup {
     -- for example, context is off by default, use this to turn it on
@@ -117,5 +73,5 @@ require("indent_blankline").setup {
 -- appearance
 
 require('gitsigns').setup()
-require('ui.tabby')
 require('ui.feline')
+require('ui.tabby')

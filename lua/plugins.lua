@@ -14,10 +14,36 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
   -- package manager
   use 'wbthomason/packer.nvim'
+  use 'williamboman/mason.nvim'
+
+  -- language server
+  use 'williamboman/mason-lspconfig.nvim'
+  use { 'neovim/nvim-lspconfig', config = function() 
+    require('mason').setup()
+    require('mason-lspconfig').setup({
+      ensure_installed = { "sumneko_lua", "jdtls", "html", "jsonls", "pyright", "vimls" }
+    })
+
+    -- see :h mason-lspconfig-automatic-server-setup
+    require('mason-lspconfig').setup_handlers({
+      function (server_name)
+        local on_attach = function(client, bufnr) 
+            vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+            vim.api.nvim_buf_set_option(0, "formatexpr", "v:lua.vim.lsp.formatexpr()")
+            require('config.lsp.keymaps').setup(client, bufnr)
+        end
+        require('lspconfig')[server_name].setup({
+          on_attach = on_attach,
+          flags = {
+            debounce_text_changes = 150, 
+          },
+        })
+      end
+    })
+  end}
 
   -- display
   use 'lukas-reineke/indent-blankline.nvim'
-  use 'romgrk/barbar.nvim'
   use 'feline-nvim/feline.nvim'
   
   -- navigation
