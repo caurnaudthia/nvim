@@ -16,12 +16,22 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'williamboman/mason.nvim'
 
+  -- core
+  use {
+      'nvim-treesitter/nvim-treesitter',
+      run = function()
+          local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+          ts_update()
+      end,
+  }
+
   -- language server
   use 'williamboman/mason-lspconfig.nvim'
+  use 'mfussenegger/nvim-jdtls'
   use { 'neovim/nvim-lspconfig', config = function() 
     require('mason').setup()
     require('mason-lspconfig').setup({
-      ensure_installed = { "sumneko_lua", "jdtls", "html", "jsonls", "pyright", "vimls" }
+      ensure_installed = { "lua_ls", "html", "jsonls", "pyright", "vimls" }
     })
 
     -- see :h mason-lspconfig-automatic-server-setup
@@ -54,13 +64,14 @@ return require('packer').startup(function(use)
     vim.o.timeout = true
     vim.o.timeoutlen = 300
     require("which-key").setup() end}
+  use 'BurntSushi/ripgrep' 
   use {'nvim-telescope/telescope.nvim', tag = '0.1.1'}
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
   -- completion
-  use {'ms-jpq/coq_nvim', branch = 'coq'}
-    use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
-    use {'ms-jpq/coq.thirdparty', branch = '3p'}
+  -- use {'ms-jpq/coq_nvim', branch = 'coq'}
+  --   use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+  --   use {'ms-jpq/coq.thirdparty', branch = '3p'}
 
 
   -- themes
