@@ -28,7 +28,7 @@ return require('packer').startup(function(use)
   -- language server
   use 'williamboman/mason-lspconfig.nvim'
   use 'mfussenegger/nvim-jdtls'
-  use { 'neovim/nvim-lspconfig', config = function() 
+  use { 'neovim/nvim-lspconfig', config = function()
     require('mason').setup()
     require('mason-lspconfig').setup({
       ensure_installed = { "lua_ls", "html", "jsonls", "pyright", "vimls" }
@@ -37,7 +37,7 @@ return require('packer').startup(function(use)
     -- see :h mason-lspconfig-automatic-server-setup
     require('mason-lspconfig').setup_handlers({
       function (server_name)
-        local on_attach = function(client, bufnr) 
+        local on_attach = function(client, bufnr)
             vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
             vim.api.nvim_buf_set_option(0, "formatexpr", "v:lua.vim.lsp.formatexpr()")
             require('config.lsp.keymaps').setup(client, bufnr)
@@ -45,7 +45,7 @@ return require('packer').startup(function(use)
         require('lspconfig')[server_name].setup({
           on_attach = on_attach,
           flags = {
-            debounce_text_changes = 150, 
+            debounce_text_changes = 150,
           },
         })
       end
@@ -55,7 +55,7 @@ return require('packer').startup(function(use)
   -- display
   use 'lukas-reineke/indent-blankline.nvim'
   use 'feline-nvim/feline.nvim'
-  
+
   -- navigation
   use 'ggandor/lightspeed.nvim'
   use 'nanozuki/tabby.nvim'
@@ -64,7 +64,7 @@ return require('packer').startup(function(use)
     vim.o.timeout = true
     vim.o.timeoutlen = 300
     require("which-key").setup() end}
-  use 'BurntSushi/ripgrep' 
+  use 'BurntSushi/ripgrep'
   use {'nvim-telescope/telescope.nvim', tag = '0.1.1'}
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
@@ -78,7 +78,6 @@ return require('packer').startup(function(use)
   -- use 'bluz71/vim-nightfly-colors'
   -- use 'drewtempelmeyer/palenight.vim'
   -- use 'unrealjo/neovim-purple'
-  -- use 'edeneast/nightfox.nvim'
   -- use 'lunarvim/horizon.nvim'
   use 'EdenEast/nightfox.nvim'
 

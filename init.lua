@@ -156,5 +156,5 @@ require'nvim-treesitter.configs'.setup {
 -- appearance
 
 require('gitsigns').setup()
-require('ui.feline')
-require('ui.tabby')
+require('ui.feline').setup()
+require('ui.tabby').setup()
