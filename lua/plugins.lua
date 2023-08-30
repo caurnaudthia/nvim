@@ -65,7 +65,7 @@ return require('packer').startup(function(use)
     vim.o.timeoutlen = 300
     require("which-key").setup() end}
   use 'BurntSushi/ripgrep'
-  use {'nvim-telescope/telescope.nvim', tag = '0.1.1'}
+  use {'nvim-telescope/telescope.nvim', tag = '0.1.2'}
     use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
   -- completion
