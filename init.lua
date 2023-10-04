@@ -54,6 +54,9 @@ funcs.nmap('<leader>fg', "require('Telescope.builtin').live_grep")
 funcs.nmap('<leader>fb', "require('Telescope.builtin').buffers")
 funcs.nmap('<leader>fh', "require('Telescope.builtin').help_tags")
 
+-- markdown
+funcs.nmap('<leader>md', '<Plug>MarkdownPreviewToggle')
+
 -- colorscheme
 vim.cmd([[
   syntax enable
