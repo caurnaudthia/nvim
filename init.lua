@@ -1,13 +1,9 @@
--- required files
+-- functions file
 local ok1, funcs = pcall(require, 'functions.luarc')
 if not ok1 then print('luarc functions failed to load') end
-local ok2, plugins = pcall(require, 'plugins')
-if not ok2 then print('plugins file failed to load') end
-local ok4, blankline = pcall(require, 'indent_blankline')
-if not ok4 then print('blankline failed to load') end
 
 -- options
-local options = 
+local options =
 {
   -- tabbing and whitespace
   autoindent = true, -- automated indentation
@@ -57,13 +53,6 @@ funcs.nmap('<leader>fh', "require('Telescope.builtin').help_tags")
 -- markdown
 funcs.nmap('<leader>md', '<Plug>MarkdownPreviewToggle')
 
--- colorscheme
-vim.cmd([[
-  syntax enable
-  colorscheme duskfox
-  set tgc
-]])
-
 -- plugin initialization
 
 vim.cmd([[
@@ -73,58 +62,50 @@ vim.cmd([[
   augroup end
 ]])
 
--- vim.g.coq_settings = {["auto_start"] = "shut-up", ["clients.lsp.enabled"] = true}
-require('mason').setup()
-require('mason-lspconfig').setup()
+-- colorscheme
 
-blankline.setup {
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = false,
-    show_current_context_start = false,
-}
+vim.cmd([[
+  syntax enable
+  colorscheme duskfox
+  set tgc
+]])
 
-require('telescope').setup{
-  defaults = {
-    -- Default configuration for telescope goes here:
-    -- config_key = value,
-    mappings = {
-      i = {
-        -- map actions.which_key to <C-h> (default: <C-/>)
-        -- actions.which_key shows the mappings for your picker,
-        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-        ["<C-h>"] = "which_key"
-      }
-    }
-  },
-  pickers = {
-    -- Default configuration for builtin pickers goes here:
-    -- picker_name = {
-    --   picker_config_key = value,
-    --   ...
-    -- }
-    -- Now the picker_config_key will be applied every time you call this
-    -- builtin picker
-  },
+-- language servers
+
+funcs.protectedSetup('mason', {})
+funcs.protectedSetup('mason-lspconfig', {})
+
+-- navigation
+
+local ok, telescope = funcs.protectedSetup('telescope', {
   extensions = {
-    -- Your extension configuration goes here:
-    -- extension_name = {
-    --   extension_config_key = value,
-    -- }
-    -- please take a look at the readme of the extension you want to configure
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                       -- the default case_mode is "smart_case"
+    }
   }
-}
---require('telescope').load_extension('fzf')
+})
+-- To get fzf loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+-- if ok then telescope.load_extension('fzf') end
 
-require'nvim-treesitter.configs'.setup {
+funcs.protectedSetup('gitsigns', {})
+
+-- treesitter
+
+funcs.protectedSetup('nvim-treesitter.configs', {
   -- A list of parser names, or "all" (the four listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "regex", "java", "c_sharp" },
+  ensure_installed = { "c", "lua", "vim", "regex", "java", "c_sharp", "python" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
 
   -- Automatically install missing parsers when entering buffer
   -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
-  auto_install = false,
+  auto_install = true,
 
   -- List of parsers to ignore installing (for "all")
   ignore_install = { "javascript" },
@@ -140,7 +121,6 @@ require'nvim-treesitter.configs'.setup {
     -- disable highlighting for the `tex` filetype, you need to include `latex` in this list as this is
     -- the name of the parser)
     -- list of language that will be disabled
-    disable = { "c", "rust" },
     -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
     disable = function(lang, buf)
         local max_filesize = 100 * 1024 -- 100 KB
@@ -155,13 +135,35 @@ require'nvim-treesitter.configs'.setup {
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
-  },
-}
+  }
+})
 
 -- appearance
 
-require('gitsigns').setup()
-local ok5, felconfig = pcall(require, 'ui.feline')
-if not ok5 then print('feline config failed to load') end
-local ok6, taconfig = pcall(require, 'ui.tabby')
-if not ok6 then print('tabby config failed to load') end
+funcs.protectedCall('ui.feline', {})
+funcs.protectedCall('ui.tabby', {})
+
+-- function version control
+
+local date = os.date('%x')
+local file = io.open('.lastchanged', 'r')
+
+if file then
+  local lastDate = file:read()
+  if not lastDate == date then
+    vim.cmd([[
+      PackerUpdate
+    ]])
+    file:close()
+    file = io.open('.lastchanged', 'w')
+    file:write(date)
+    file:close()
+  end
+end
+if not file then 
+  file = io.open('.lastchanged', 'w') 
+  file:write(date)
+  file:close()
+end
+
+

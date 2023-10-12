@@ -31,7 +31,7 @@ return require('packer').startup(function(use)
   use { 'neovim/nvim-lspconfig', config = function()
     require('mason').setup()
     require('mason-lspconfig').setup({
-      ensure_installed = { "lua_ls", "html", "jsonls", "pyright", "vimls" }
+      ensure_installed = { "lua_ls", "html", "jsonls", "pylyzer", "vimls" }
     })
 
     -- see :h mason-lspconfig-automatic-server-setup
@@ -66,12 +66,12 @@ return require('packer').startup(function(use)
     require("which-key").setup() end}
   use 'BurntSushi/ripgrep'
   use {'nvim-telescope/telescope.nvim', tag = '0.1.2'}
-    use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
   -- completion
-  -- use {'ms-jpq/coq_nvim', branch = 'coq'}
-  --   use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
-  --   use {'ms-jpq/coq.thirdparty', branch = '3p'}
+  use {'ms-jpq/coq_nvim', branch = 'coq'}
+     use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+     use {'ms-jpq/coq.thirdparty', branch = '3p'}
 
 
   -- themes
@@ -90,8 +90,6 @@ return require('packer').startup(function(use)
       "iamcco/markdown-preview.nvim",
       run = function() vim.fn["mkdp#util#install"]() end,
   })
-
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins

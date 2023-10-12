@@ -25,4 +25,17 @@ function module.setAll(settings)
 	for k, v in pairs(settings) do module.set(k, v) end
 end
 
+-- protected call to setup function
+function module.protectedSetup(plugName, setup)
+  local ok, plugin = pcall(require, plugName)
+  if ok then plugin.setup(setup) else print(pluginName .. ' failed to load') end
+  return ok, plugin
+end
+
+function module.protectedCall(scriptName)
+  local ok, script = pcall(require, scriptName)
+  if not ok then print(scriptName .. ' failed to load') end
+  return ok, script
+end
+
 return module
