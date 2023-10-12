@@ -1,6 +1,7 @@
 -- functions file
 local ok1, funcs = pcall(require, 'functions.luarc')
 if not ok1 then print('luarc functions failed to load') end
+funcs.protectedCall('plugins')
 
 -- options
 local options =
@@ -52,15 +53,6 @@ funcs.nmap('<leader>fh', "require('Telescope.builtin').help_tags")
 
 -- markdown
 funcs.nmap('<leader>md', '<Plug>MarkdownPreviewToggle')
-
--- plugin initialization
-
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerCompile
-  augroup end
-]])
 
 -- colorscheme
 
@@ -140,13 +132,13 @@ funcs.protectedSetup('nvim-treesitter.configs', {
 
 -- appearance
 
-funcs.protectedCall('ui.feline', {})
-funcs.protectedCall('ui.tabby', {})
+funcs.protectedCall('ui.feline')
+funcs.protectedCall('ui.tabby')
 
 -- function version control
 
 local date = os.date('%x')
-local file = io.open('.lastchanged', 'r')
+local file = io.open('lua/lastchanged', 'r')
 
 if file then
   local lastDate = file:read()
@@ -155,13 +147,13 @@ if file then
       PackerUpdate
     ]])
     file:close()
-    file = io.open('.lastchanged', 'w')
+    file = io.open('lua/lastchanged', 'w')
     file:write(date)
     file:close()
   end
 end
 if not file then 
-  file = io.open('.lastchanged', 'w') 
+  file = io.open('lua/lastchanged', 'w') 
   file:write(date)
   file:close()
 end
