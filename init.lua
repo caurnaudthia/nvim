@@ -146,16 +146,16 @@ if file then
     vim.cmd([[
       PackerUpdate
     ]])
-    file:close()
+    io.close()
     file = io.open('lua/lastchanged', 'w')
-    file:write(date)
-    file:close()
+    io.write(date)
+    io.close()
   end
 end
-if not file then 
-  file = io.open('lua/lastchanged', 'w') 
-  file:write(date)
-  file:close()
+if not file then
+  file = io.open('lua/lastchanged', 'w')
+  io.write(date)
+  io.close()
 end
 
 
