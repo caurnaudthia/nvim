@@ -129,11 +129,6 @@ _G.packer_plugins = {
     path = "C:\\Users\\wisteria\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nightfox.nvim",
     url = "https://github.com/EdenEast/nightfox.nvim"
   },
-  ["nvim-jdtls"] = {
-    loaded = true,
-    path = "C:\\Users\\wisteria\\AppData\\Local\\nvim-data\\site\\pack\\packer\\start\\nvim-jdtls",
-    url = "https://github.com/mfussenegger/nvim-jdtls"
-  },
   ["nvim-lspconfig"] = {
     config = { "\27LJ\2\nâ\1\0\2\a\0\n\0\0226\2\0\0009\2\1\0029\2\2\2\18\4\1\0'\5\3\0'\6\4\0B\2\4\0016\2\0\0009\2\1\0029\2\2\2)\4\0\0'\5\5\0'\6\6\0B\2\4\0016\2\a\0'\4\b\0B\2\2\0029\2\t\2\18\4\0\0\18\5\1\0B\2\3\1K\0\1\0\nsetup\23config.lsp.keymaps\frequire\31v:lua.vim.lsp.formatexpr()\15formatexpr\27v:lua.vim.lsp.omnifunc\romnifunc\24nvim_buf_set_option\bapi\bvim\127\1\1\6\0\b\0\f3\1\0\0006\2\1\0'\4\2\0B\2\2\0028\2\0\0029\2\3\0025\4\4\0=\1\5\0045\5\6\0=\5\a\4B\2\2\1K\0\1\0\nflags\1\0\1\26debounce_text_changes\3–\1\14on_attach\1\0\0\nsetup\14lspconfig\frequire\0Ì\1\1\0\4\0\t\0\0226\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\0016\0\0\0'\2\3\0B\0\2\0029\0\2\0005\2\5\0005\3\4\0=\3\6\2B\0\2\0016\0\0\0'\2\3\0B\0\2\0029\0\a\0004\2\3\0003\3\b\0>\3\1\2B\0\2\1K\0\1\0\0\19setup_handlers\21ensure_installed\1\0\0\1\6\0\0\vlua_ls\thtml\vjsonls\fpylyzer\nvimls\20mason-lspconfig\nsetup\nmason\frequire\0" },
     loaded = true,

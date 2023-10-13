@@ -34,7 +34,6 @@ return require('packer').startup(function(use)
 
   -- language server
   use 'williamboman/mason-lspconfig.nvim'
-  use 'mfussenegger/nvim-jdtls'
   use { 'neovim/nvim-lspconfig', config = function()
     require('mason').setup()
     require('mason-lspconfig').setup({

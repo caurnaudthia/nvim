@@ -1,8 +1,8 @@
 local module = {}
 
 -- map a key given mode shortcut command
-function module.map(mode, shortcut, command)
-	vim.api.nvim_set_keymap(mode, shortcut, command, { noremap = true, silent = true })
+function module.map(mode, shortcut, ...)
+	vim.keymap.set(mode, shortcut, ..., { noremap = true, silent = true })
 end
 
 -- set a vim setting
@@ -11,13 +11,13 @@ function module.set(setting, value)
 end
 
 -- map a key in normal mode
-function module.nmap(shortcut, command)
-	module.map('n', shortcut, command)
+function module.nmap(shortcut, ...)
+	module.map('n', shortcut, ...)
 end
 
 -- map a key in insert mode
-function module.imap(shortcut, command)
-	module.map('i', shortcut, command)
+function module.imap(shortcut, ...)
+	module.map('i', shortcut, ...)
 end
 
 -- set all settings in a table
@@ -36,6 +36,12 @@ function module.protectedCall(scriptName)
   local ok, script = pcall(require, scriptName)
   if not ok then print(scriptName .. ' failed to load') end
   return ok, script
+end
+
+function module.protectedFuncCall(scriptName, ...)
+  local ok, output = pcall(scriptName, ...)
+  if ok then print(scriptName .. ' failed to load') end
+  return ok, output
 end
 
 return module

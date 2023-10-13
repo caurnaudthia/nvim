@@ -46,10 +46,13 @@ funcs.setAll(options)
 -- keymaps
 
 -- telescope
-funcs.nmap('<leader>ff', "require('Telescope.builtin').find_files")
-funcs.nmap('<leader>fg', "require('Telescope.builtin').live_grep")
-funcs.nmap('<leader>fb', "require('Telescope.builtin').buffers")
-funcs.nmap('<leader>fh', "require('Telescope.builtin').help_tags")
+local ok, builtin = funcs.protectedCall('telescope.builtin')
+if ok then
+  funcs.nmap('<leader>ff', builtin.find_files, {})
+  funcs.nmap('<leader>fg', builtin.live_grep, {})
+  funcs.nmap('<leader>fb', builtin.buffers, {})
+  funcs.nmap('<leader>fh', builtin.help_tags, {})
+end
 
 -- markdown
 funcs.nmap('<leader>md', '<Plug>MarkdownPreviewToggle')
@@ -82,7 +85,7 @@ local ok, telescope = funcs.protectedSetup('telescope', {
 })
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
--- if ok then telescope.load_extension('fzf') end
+funcs.protectedFuncCall('telescope.load_extension', 'fzf')
 
 funcs.protectedSetup('gitsigns', {})
 
