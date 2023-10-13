@@ -32,6 +32,14 @@ return require('packer').startup(function(use)
       end,
   }
 
+  -- completion
+  use {'ms-jpq/coq_nvim', branch = 'coq'}
+     use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+     use {'ms-jpq/coq.thirdparty', branch = '3p'}
+  vim.cmd([[
+    let g:coq_settings = { 'auto_start': 'shut-up' }
+  ]])
+
   -- language server
   use 'williamboman/mason-lspconfig.nvim'
   use { 'neovim/nvim-lspconfig', config = function()
@@ -48,12 +56,12 @@ return require('packer').startup(function(use)
             vim.api.nvim_buf_set_option(0, "formatexpr", "v:lua.vim.lsp.formatexpr()")
             require('config.lsp.keymaps').setup(client, bufnr)
         end
-        require('lspconfig')[server_name].setup({
+        require('lspconfig')[server_name].setup(require('coq').lsp_ensure_capabilities({
           on_attach = on_attach,
           flags = {
             debounce_text_changes = 150,
           },
-        })
+        }))
       end
     })
   end}
@@ -74,10 +82,6 @@ return require('packer').startup(function(use)
   use {'nvim-telescope/telescope.nvim', tag = '0.1.2'}
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 
-  -- completion
-  use {'ms-jpq/coq_nvim', branch = 'coq'}
-     use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
-     use {'ms-jpq/coq.thirdparty', branch = '3p'}
 
 
   -- themes
