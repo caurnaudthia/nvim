@@ -45,7 +45,7 @@ return require('packer').startup(function(use)
   use { 'neovim/nvim-lspconfig', config = function()
     require('mason').setup()
     require('mason-lspconfig').setup({
-      ensure_installed = { "lua_ls", "html", "jsonls", "pylyzer", "vimls" }
+      ensure_installed = { "lua_ls", "html", "jsonls", "pyright", "vimls" }
     })
 
     -- see :h mason-lspconfig-automatic-server-setup
