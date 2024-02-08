@@ -1,7 +1,7 @@
 -- functions file
 local ok1, funcs = pcall(require, 'functions.luarc')
 if not ok1 then print('luarc functions failed to load') end
-funcs.protectedCall('plugins')
+--funcs.protectedCall('plugins')
 
 -- options
 local options =
@@ -45,7 +45,7 @@ funcs.setAll(options)
 
 -- keymaps
 
--- telescope
+--[[-- telescope
 local ok, builtin = funcs.protectedCall('telescope.builtin')
 if ok then
   funcs.nmap('<leader>ff', builtin.find_files, {})
@@ -63,10 +63,10 @@ vim.cmd([[
   syntax enable
   colorscheme duskfox
   set tgc
-]])
+]]--)
 
 -- language servers
-
+--[[
 funcs.protectedSetup('mason', {})
 funcs.protectedSetup('mason-lspconfig', {})
 
@@ -92,8 +92,6 @@ funcs.protectedSetup('gitsigns', {})
 -- treesitter
 
 funcs.protectedSetup('nvim-treesitter.configs', {
-  -- A list of parser names, or "all" (the four listed parsers should always be installed)
-  ensure_installed = { "c", "lua", "vim", "regex", "java", "c_sharp", "python" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,
@@ -137,28 +135,4 @@ funcs.protectedSetup('nvim-treesitter.configs', {
 
 funcs.protectedCall('ui.feline')
 funcs.protectedCall('ui.tabby')
-
--- function version control
-
-local date = os.date('%x')
-local file = io.open('lua/lastchanged', 'r')
-
-if file then
-  local lastDate = file:read()
-  if not lastDate == date then
-    vim.cmd([[
-      PackerUpdate
-    ]])
-    io.close()
-    file = io.open('lua/lastchanged', 'w')
-    io.write(date)
-    io.close()
-  end
-end
-if not file then
-  file = io.open('lua/lastchanged', 'w')
-  io.write(date)
-  io.close()
-end
-
-
+--]]
