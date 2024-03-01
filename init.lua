@@ -43,7 +43,70 @@ vim.g.mapleader = ' '
 vim.g.mmaplocalleader = ' '
 funcs.setAll(options)
 
+-- plugins
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
+
+local lazy = require('lazy')
+lazy.setup({
+  -- THEMES and APPEARANCE
+  {
+    --'rose-pine/neovim',
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    config = function()
+      -- load the colorscheme here
+      vim.cmd([[colorscheme rose-pine]])
+    end,
+  },
+  { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }, -- indentation hints
+  { 'nvim-tree/nvim-web-devicons' }, -- icons
+  { 'lewis6991/gitsigns.nvim' }, -- git actions
+  { "feline-nvim/feline.nvim" }, -- bottomline
+  { 'nanozuki/tabby.nvim' }, -- tab bar
+
+  -- LANGUAGE SERVERS
+  {"williamboman/mason.nvim", lazy = false},
+  {"williamboman/mason-lspconfig.nvim", lazy = false},
+  {"neovim/nvim-lspconfig", lazy = false},
+
+  -- COMPLETION
+  {'ms-jpq/coq_nvim', lazy = false, branch = 'coq'},
+  {'ms-jpq/coq.artifacts', lazy = false, branch = 'artifacts'},
+  {'ms-jpq/coq.thirdparty', lazy = false, branch = '3p'}
+})
+
+vim.g.coq_settings = { auto_start = 'shut-up' } 
+
+-- language server startup
+local ok, mason = funcs.protectedSetup('mason')
+local ok, masonlsp = funcs.protectedSetup('mason-lspconfig')
+
+-- apperance
+
+local ok, fel = funcs.protectedCall('ui.feline')
+local ok, tab = funcs.protectedCall('ui.tabby')
+local ok, ibl = funcs.protectedSetup('ibl')
+
+-- appearance
+
+
+
 -- keymaps
+
+
 
 --[[-- telescope
 local ok, builtin = funcs.protectedCall('telescope.builtin')
