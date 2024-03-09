@@ -1,6 +1,7 @@
 -- functions file
-local _, funcs = pcall(require, 'functions.luarc')
-if not _ then print('luarc functions failed to load') end
+local ok, funcs = pcall(require, 'functions.luarc')
+if not ok then print('luarc functions failed to load') end
+local _, banner = funcs.protectedCall('ui.banners')
 --funcs.protectedCall('plugins')
 
 -- options
@@ -21,7 +22,7 @@ local options =
   relativenumber = true, -- number lines relatively
   signcolumn = 'yes', -- error column
   cursorline = true, -- highlight cursor line
-  cc = '100', -- column size indicator
+  cc = '200', -- column size indicator
   showtabline = 2, -- always show the tab line
   laststatus = 2, -- always show statusline
 
@@ -59,6 +60,9 @@ vim.opt.rtp:prepend(lazypath)
 
 local lazy = require('lazy')
 lazy.setup({
+  -- CORE
+  {'nvim-lua/plenary.nvim'},
+
   -- THEMES and APPEARANCE
   {
     --'rose-pine/neovim',
@@ -101,26 +105,34 @@ lazy.setup({
   },
   {'stevearc/oil.nvim', lazy = false},
   {
-    'nvimdev/dashboard-nvim',
-    event = 'VimEnter',
-    config = function()
-      funcs.protectedSetup('dashboard', {
-        -- setup opts
-      })
+    'goolord/alpha-nvim',
+    config = function ()
+      local _, dashboard = funcs.protectedCall('alpha.themes.dashboard')
+      funcs.protectedSetup('alpha', dashboard.config)
     end
-  }
+  },
+  {
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
+  },
+  {'nvim-telescope/telescope-file-browser.nvim'},
+
+  -- SESSION MANAGEMENT
+  {'nvim-telescope/telescope-project.nvim'},
+  {'folke/persistence.nvim', event = 'BufReadPre'}
 })
 
 -- keys setup and extensions keymap
 local _, wk = funcs.protectedCall('which-key')
 wk.register({
-  ['-'] = {'<cmd>Oil<cr>', 'open file parent'}
+  ['-'] = {'<cmd>Oil<cr>', 'open file parent'},
 })
 wk.register({
   f = {
-    name = 'directory',
-    f = {'<cmd>Oil<cr>', 'open file parent'},
-    p = {'<cmd>Oil --float<cr>', 'open file parent in floating window'}
+    name = 'telescope/search',
+    b = {'<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>', 'telescope file browser'},
+    o = {'<cmd>Oil --float<cr>', 'open file parent in floating window'},
+    p = {'<cmd>lua require"telescope".extensions.project.project{}<cr>', 'open projects picker'}
   },
   d = {
     name = 'diagnostics',
@@ -162,7 +174,15 @@ wk.register({
     A = {'<cmd>WhichKey \'\' v<CR>', 'show all visual'},
     r = {'<cmd>WhichKey "<CR>', 'show all registers'},
     m = {'<cmd>WhichKey `<CR>', 'show all marks'}
-  }
+  },
+  s = {
+    name = 'sessions',
+    s = {'<cmd>mks! .vimsess<cr>', 'save current folder'},
+    l = {'<cmd>so .vimsess<cr>', 'load current folder'}
+  },
+  n = {'<cmd>noh<cr>', 'clear search highlights'},
+  m = {'<cmd>Mason<cr>', 'load lsp manager'},
+  p = {'<cmd>Lazy home<cr>', 'plugin manager'},
 }, {prefix = '<leader>'})
 
 -- completion setup
@@ -171,23 +191,31 @@ vim.g.coq_settings = { auto_start = 'shut-up' }
 local _, coq = funcs.protectedCall('coq')
 
 
--- language server and gps
+-- language servers 
 funcs.protectedSetup('mason')
 local _, masonlsp = funcs.protectedSetup('mason-lspconfig')
-local _, navic = funcs.protectedCall('nvim-navic')
+local _, lspconfig = funcs.protectedCall('lspconfig')
 masonlsp.setup_handlers({
   function(server_name)
     local on_attach = function(client, bufnr)
     end
-    local _, lspconfig = funcs.protectedCall('lspconfig')
     lspconfig[server_name].setup(coq.lsp_ensure_capabilities({
       on_attach = on_attach,
       flags = {
         debounce_text_changes = 150
       }
     }))
+  end,
+  ['grammarly'] = function()
+    lspconfig.grammarly.setup{
+      filetypes = {
+        'markdown',
+        'text'
+      }
+    }
   end
 })
+-- customize signs to be something other than just text
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
@@ -196,6 +224,11 @@ end
 
 -- navigation
 funcs.protectedSetup('oil')
+local _, telescope = funcs.protectedSetup('telescope', {
+
+})
+telescope.load_extension('file_browser')
+telescope.load_extension('project')
 
 
 -- apperance

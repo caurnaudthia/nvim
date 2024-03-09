@@ -28,7 +28,7 @@ end
 -- protected call to setup function
 function module.protectedSetup(plugName, setup)
   local ok, plugin = pcall(require, plugName)
-  if ok then plugin.setup(setup) else print(pluginName .. ' failed to load') end
+  if ok then plugin.setup(setup) else print(plugName .. ' failed to load') end
   return ok, plugin
 end
 
