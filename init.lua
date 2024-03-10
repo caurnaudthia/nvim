@@ -80,6 +80,7 @@ lazy.setup({
   {'lewis6991/gitsigns.nvim', lazy = false}, -- git actions
   {'feline-nvim/feline.nvim', lazy = false}, -- bottomline
   {'nanozuki/tabby.nvim', lazy = false}, -- tab bar
+  {'folke/zen-mode.nvim', lazy = false}, -- focus mode
 
   -- LANGUAGE SERVERS
   {'williamboman/mason.nvim', lazy = false},
@@ -105,20 +106,20 @@ lazy.setup({
   },
   {'stevearc/oil.nvim', lazy = false},
   {
-    'goolord/alpha-nvim',
+    'goolord/alpha-nvim', lazy = false,
     config = function ()
       local _, dashboard = funcs.protectedCall('alpha.themes.dashboard')
       funcs.protectedSetup('alpha', dashboard.config)
     end
   },
   {
-    'nvim-telescope/telescope.nvim',
+    'nvim-telescope/telescope.nvim', lazy = false,
     branch = '0.1.x',
   },
-  {'nvim-telescope/telescope-file-browser.nvim'},
+  {'nvim-telescope/telescope-file-browser.nvim', lazy = false},
 
   -- SESSION MANAGEMENT
-  {'nvim-telescope/telescope-project.nvim'},
+  {'nvim-telescope/telescope-project.nvim', lazy = false},
   {'folke/persistence.nvim', event = 'BufReadPre'}
 })
 
@@ -158,7 +159,8 @@ wk.register({
     r = {'<cmd>lua vim.lsp.buf.rename()<CR>', 'Rename'},
     a = {'<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code Action'},
     d = {'<cmd>lua vim.diagnostic.open_float()<CR>', 'Line Diagnostics'},
-    i = {'<cmd>LspInfo<CR>', 'LSP info'}
+    i = {'<cmd>LspInfo<CR>', 'LSP info'},
+    l = {'<cmd>lua vim.lsp.buf.hover()<CR>', 'Line Readout'}
   },
   g = {
     name = 'goto actions',
@@ -183,6 +185,7 @@ wk.register({
   n = {'<cmd>noh<cr>', 'clear search highlights'},
   m = {'<cmd>Mason<cr>', 'load lsp manager'},
   p = {'<cmd>Lazy home<cr>', 'plugin manager'},
+  z = {'<cmd>ZenMode<cr>', 'focus mode'}
 }, {prefix = '<leader>'})
 
 -- completion setup
@@ -229,6 +232,27 @@ local _, telescope = funcs.protectedSetup('telescope', {
 })
 telescope.load_extension('file_browser')
 telescope.load_extension('project')
+local _, leap = funcs.protectedCall('leap')
+local _, leapuser = funcs.protectedCall('leap.user')
+leap.create_default_mappings()
+leap.opts.special_keys.prev_target = '<bs>'
+leap.opts.special_keys.prev_group = '<bs>'
+leapuser.set_repeat_keys('<cr>', '<bs>')
+-- Hide the (real) cursor when leaping, and restore it afterwards.
+vim.api.nvim_create_autocmd('User', { pattern = 'LeapEnter',
+    callback = function()
+      vim.cmd.hi('Cursor', 'blend=100')
+      vim.opt.guicursor:append { 'a:Cursor/lCursor' }
+    end,
+  }
+)
+vim.api.nvim_create_autocmd('User', { pattern = 'LeapLeave',
+    callback = function()
+      vim.cmd.hi('Cursor', 'blend=0')
+      vim.opt.guicursor:remove { 'a:Cursor/lCursor' }
+    end,
+  }
+)
 
 
 -- apperance
