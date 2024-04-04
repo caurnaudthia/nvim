@@ -14,6 +14,7 @@ local options =
   softtabstop = 2, -- how many spaces equals a tab
   shiftwidth = 2, -- width of autotab
   wrap = true, -- wrap oversized lines
+  linebreak = true,
 
   -- window
   titlestring = 'vim', -- window title
@@ -129,6 +130,9 @@ wk.register({
   ['-'] = {'<cmd>Oil<cr>', 'open file parent'},
 })
 wk.register({
+  ['<Esc>'] = {'<C-\\><C-n>', 'escape terminal'}
+}, {mode = 't'})
+wk.register({
   f = {
     name = 'telescope/search',
     b = {'<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>', 'telescope file browser'},
@@ -230,8 +234,10 @@ funcs.protectedSetup('oil')
 local _, telescope = funcs.protectedSetup('telescope', {
 
 })
+
 telescope.load_extension('file_browser')
 telescope.load_extension('project')
+
 local _, leap = funcs.protectedCall('leap')
 local _, leapuser = funcs.protectedCall('leap.user')
 leap.create_default_mappings()
