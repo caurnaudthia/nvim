@@ -15,6 +15,7 @@ local options =
   shiftwidth = 2, -- width of autotab
   wrap = true, -- wrap oversized lines
   linebreak = true,
+  textwidth = 0,
 
   -- window
   titlestring = 'vim', -- window title
@@ -87,6 +88,7 @@ lazy.setup({
   {'williamboman/mason.nvim', lazy = false},
   {'williamboman/mason-lspconfig.nvim', lazy = false},
   {'neovim/nvim-lspconfig', lazy = false},
+  {'folke/neodev.nvim', lazy = false, opts = {}},
 
   -- COMPLETION
   {'ms-jpq/coq_nvim', lazy = false, branch = 'coq'},
@@ -130,7 +132,7 @@ wk.register({
   ['-'] = {'<cmd>Oil<cr>', 'open file parent'},
 })
 wk.register({
-  ['<Esc>'] = {'<C-\\><C-n>', 'escape terminal'}
+  ['<c-Esc>'] = {'<C-\\><C-n>', 'escape terminal'}
 }, {mode = 't'})
 wk.register({
   f = {
@@ -164,7 +166,9 @@ wk.register({
     a = {'<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code Action'},
     d = {'<cmd>lua vim.diagnostic.open_float()<CR>', 'Line Diagnostics'},
     i = {'<cmd>LspInfo<CR>', 'LSP info'},
-    l = {'<cmd>lua vim.lsp.buf.hover()<CR>', 'Line Readout'}
+    l = {'<cmd>lua vim.lsp.buf.hover()<CR>', 'Line Readout'},
+    c = {'<cmd>COQnow -s<CR>', 'Start Autocomplete'},
+    f = {'<cmd>lua vim.lsp.buf.format()<cr>', 'Reformat'},
   },
   g = {
     name = 'goto actions',
@@ -189,14 +193,15 @@ wk.register({
   n = {'<cmd>noh<cr>', 'clear search highlights'},
   m = {'<cmd>Mason<cr>', 'load lsp manager'},
   p = {'<cmd>Lazy home<cr>', 'plugin manager'},
-  z = {'<cmd>ZenMode<cr>', 'focus mode'}
+  z = {'<cmd>ZenMode<cr>', 'focus mode'},
+  W = {'g<c-g>', 'word count'},
+  h = {'<cmd>set tw=0<cr>', 'disable linebreak insertion'},
 }, {prefix = '<leader>'})
 
 -- completion setup
 
 vim.g.coq_settings = { auto_start = 'shut-up' }
 local _, coq = funcs.protectedCall('coq')
-
 
 -- language servers 
 funcs.protectedSetup('mason')
@@ -216,11 +221,18 @@ masonlsp.setup_handlers({
   ['grammarly'] = function()
     lspconfig.grammarly.setup{
       filetypes = {
-        'markdown',
-        'text'
+        'text',
+        'mail',
       }
     }
-  end
+  end,
+  ['html'] = function()
+    lspconfig.html.setup{
+      filetypes = {
+        'mail',
+      }
+    }
+  end,
 })
 -- customize signs to be something other than just text
 local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
