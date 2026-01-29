@@ -1,80 +1,122 @@
 -- functions file
 local ok, funcs = pcall(require, 'functions.luarc')
 if not ok then print('luarc functions failed to load') end
+
+local function concatWKEntry(target, mapping, desc, opts, override)
+  -- generate concatenated key
+  local key = ''
+  for _, v in pairs(target) do
+    key = key .. v
+  end
+  -- generate mapping string
+  if not override then
+    mapping = '<cmd>' .. mapping .. '<cr>'
+  end
+  -- generate binding table
+  local binding = {key, mapping, desc = desc}
+  -- if additional options are needed, add the following
+  if opts ~= nil then
+    for k, v in pairs(opts) do
+      binding[k] = v
+    end
+  end
+  return binding
+end
+
+local LEADER = '<leader>'
 local _, wk = funcs.protectedCall('which-key')
+
+-- unleaded keybinds
 wk.add({
-  --ungrouped
-  {'-', '<cmd>Oil<cr>', desc = 'open file parent'},
-  {'<c-`>', '<C-\\><C-n>', desc = 'escape terminal', mode = 't'},
-  {'s', '<Plug>(leap-forwards)', desc = 'leap forwards', mode = {'n', 'x', 'o'}},
-  {'S', '<Plug>(leap-backwards)', desc = 'leap backwards', mode = {'n', 'x', 'o'}},
+  concatWKEntry({'-'}, 'Oil', 'open file parent'),
+  concatWKEntry({'<c-`>'}, '<C-\\><C-n>', 'escape terminal', {mode = 't'}, true), 
+  concatWKEntry({'s'}, '<Plug>(leap)', 'leap current window', {mode = {'n', 'x', 'o'}}, true),
+  {'s', '<Plug>(leap)', desc = 'leap current window', mode = {'n', 'x', 'o'}},
+  concatWKEntry({'S'}, '<Plug>(leap-from-window)', 'leap other windows', {mode = {'n', 'x', 'o'}}, true),
 })
-wk.register({
-  ['-'] = {'<cmd>Oil<cr>', 'open file parent'},
+
+-- ungrouped keybinds
+local pre = LEADER
+wk.add({
+  concatWKEntry({pre, 'n'}, 'noh', 'clear search highlights'),
+  concatWKEntry({pre, 'm'}, 'Mason', 'load lsp manager'),
+  concatWKEntry({pre, 'p'}, 'Lazy home', 'plugin manager'),
+  concatWKEntry({pre, 'z'}, 'ZenMode', 'focus mode'),
+  concatWKEntry({pre, 'W'}, 'g<c-g>', 'get word count'),
+  concatWKEntry({pre, 'h'}, 'set tw=0', 'disable text autowrap'),
 })
-wk.register({
-  ['<c-Esc>'] = {'<C-\\><C-n>', 'escape terminal'}
-}, {mode = 't'})
-wk.register({
-  f = {
-    name = 'telescope/search',
-    b = {'<cmd>Telescope file_browser path=%:p:h select_buffer=true<cr>', 'telescope file browser'},
-    o = {'<cmd>Oil --float<cr>', 'open file parent in floating window'},
-    p = {'<cmd>lua require"telescope".extensions.project.project{}<cr>', 'open projects picker'}
-  },
-  d = {
-    name = 'diagnostics',
-    f = {'<cmd>lua vim.diagnostic.goto_prev()<CR>'},
-    j = {'<cmd>lua vim.diagnostic.goto_next()<CR>'},
-    F = {
-      '<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<CR>'},
-    J = {
-      '<cmd>lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR})<CR>'}
-  },
-  a = {
-    name = 'tabs',
-    t = {'<cmd>$tabnew<cr>', 'open new tab'},
-    w = {'<cmd>tabclose<cr>', 'close tab'},
-    W = {'<cmd>tabonly<cr>', 'close other tabs'},
-    ['<tab>'] = {'<cmd>tabn<cr>', 'next tab'},
-    ['<s-tab>'] = {'<cmd>tabp<cr>', 'previous tab'},
-    [','] = {'<cmd>-tabmove<cr>', 'move tab left'},
-    ['.'] = {'<cmd>+tabmove<cr>', 'move tab right'}
-  },
-  l = {
-    name = 'language server actions',
-    r = {'<cmd>lua vim.lsp.buf.rename()<CR>', 'Rename'},
-    a = {'<cmd>lua vim.lsp.buf.code_action()<CR>', 'Code Action'},
-    d = {'<cmd>lua vim.diagnostic.open_float()<CR>', 'Line Diagnostics'},
-    i = {'<cmd>LspInfo<CR>', 'LSP info'},
-    l = {'<cmd>lua vim.lsp.buf.hover()<CR>', 'Line Readout'},
-    c = {'<cmd>COQnow -s<CR>', 'Start Autocomplete'},
-    f = {'<cmd>lua vim.lsp.buf.format()<cr>', 'Reformat'},
-  },
-  g = {
-    name = 'goto actions',
-    d = {'<cmd>lua vim.lsp.buf.definition()<CR>', 'Definition'},
-    D = {'<cmd>lua vim.lsp.buf.declaration()<CR>', 'Declaration'},
-    s = {'<cmd>lua vim.lsp.buf.signature_help()<CR>', 'Signature Help'},
-    I = {'<cmd>lua vim.lsp.buf.implementation()<CR>', 'Implementation'},
-    t = {'<cmd>lua vim.lsp.buf.type_definition()<CR>', 'Type Definition'}
-  },
-  w = {
-    name = 'whichkey',
-    a = {'<cmd>WhichKey<CR>', 'show all normal'},
-    A = {'<cmd>WhichKey \'\' v<CR>', 'show all visual'},
-    r = {'<cmd>WhichKey "<CR>', 'show all registers'},
-    m = {'<cmd>WhichKey `<CR>', 'show all marks'}
-  },
-  s = {
-    name = 'sessions',
-    s = {'<cmd>mks! .vimsess<cr>', 'save current folder'},
-    l = {'<cmd>so .vimsess<cr>', 'load current folder'}
-  },
-  n = {'<cmd>noh<cr>', 'clear search highlights'},
-  m = {'<cmd>Mason<cr>', 'load lsp manager'},
-  p = {'<cmd>Lazy home<cr>', 'plugin manager'},
-  z = {'<cmd>ZenMode<cr>', 'focus mode'},
-  W = {'g<c-g>', 'word count'},
-  h = {'<cmd>set tw=0<cr>', 'disable linebreak insertion'},
-}, {prefix = '<leader>'})
+
+-- telescope / search / files keybinds
+pre = LEADER .. 'f'
+wk.add({
+  {pre, group = 'telescope/search/files'},
+  concatWKEntry({pre, 'b'}, 'Telescope file_browser path=%:p:h select_buffer=true', 'telescope file browser'),
+  concatWKEntry({pre, 'o'}, 'Oil --float', 'open file parent in floating window'),
+  concatWKEntry({pre, 'p'}, 'lua require"telescope".extensions.project.project{}', 'open projects picker'),
+})
+
+-- diagnostic keybinds
+pre = LEADER .. 'd'
+wk.add({
+  {pre, group = 'diagnostics'},
+  concatWKEntry({pre, 'f'}, 'lua vim.diagnostic.goto_prev()', 'go to previous diagnostic'),
+  concatWKEntry({pre, 'j'}, 'lua vim.diagnostic.goto_next()', 'go to next diagnostic'),
+  concatWKEntry({pre, 'F'}, 'lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})', 'go to previous error'),
+  concatWKEntry({pre, 'J'}, 'lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}))', 'go to next error'),
+})
+
+-- tab keybinds
+pre = LEADER .. 'a'
+wk.add({
+  {pre, group = 'tabs'},
+  concatWKEntry({pre, 't'}, '$tabnew', 'open new tab'),
+  concatWKEntry({pre, 'w'}, 'tabclose', 'close tab'),
+  concatWKEntry({pre, 'W'}, 'tabonly', 'close all other tabs'),
+  concatWKEntry({pre, '<tab>'}, 'tabn', 'next tab'),
+  concatWKEntry({pre, '<s-tab>'}, 'tabp', 'previous tab'),
+  concatWKEntry({pre, ','}, 'move tab left'),
+  concatWKEntry({pre, '.'}, 'move tab right'),
+  concatWKEntry({pre, '0'}, 'tabl', 'open last tab'),
+})
+for i=1,9 do wk.add({concatWKEntry({pre, i}, 'tabn ' .. i, 'open tab ' .. i)}) end
+
+-- language server actions
+pre = LEADER .. 'l'
+wk.add({
+  {pre, group = 'language server actions'},
+  concatWKEntry({pre, 'r'}, 'lua vim.lsp.buf.rename()', 'rename'),
+  concatWKEntry({pre, 'a'}, 'lua vim.lsp.buf.code_action()', 'code action'),
+  concatWKEntry({pre, 'd'}, 'lua vim.diagnostic.open_float()', 'line diagnostics'),
+  concatWKEntry({pre, 'i'}, 'LspInfo', 'LSP info'),
+  concatWKEntry({pre, 'c'}, 'COQnow -s', 'start autocomplete'),
+  concatWKEntry({pre, 'f'}, 'lua vim.lsp.buf.format()', 'reformat'),
+})
+
+-- goto actions
+pre = LEADER .. 'g'
+wk.add({
+  {pre, group = 'goto actions'},
+  concatWKEntry({pre, 'd'}, 'lua vim.lsp.buf.definition()', 'definition'),
+  concatWKEntry({pre, 'D'}, 'lua vim.lsp.buf.declaration()', 'declaration'),
+  concatWKEntry({pre, 's'}, 'lua vim.lsp.buf.signarure_map()', 'signature help'),
+  concatWKEntry({pre, 'i'}, 'lua vim.lsp.buf.implementation()', 'implementation'),
+  concatWKEntry({pre, 't'}, 'lua vim.lsp.buf.type_definition()', 'type definition'),
+})
+
+-- whichkey actions
+pre = LEADER .. 'w'
+wk.add({
+  {pre, group = 'whichkey'},
+  concatWKEntry({pre, 'a'}, 'WhichKey', 'show all normal'),
+  concatWKEntry({pre, 'A'}, 'WhichKey \'\' v', 'show all visual'),
+  concatWKEntry({pre, 'r'}, 'WhichKey "', 'show all registers'),
+  concatWKEntry({pre, 'm'}, 'WhichKey `', 'show all marks'),
+})
+
+-- session actions
+pre = LEADER .. 's'
+wk.add({
+  {pre, group = 'session'},
+  concatWKEntry({pre, 's'}, 'mks! .vimsess', 'save current folder'),
+  concatWKEntry({pre, 'l'}, 'so .vimsess', 'load current folder'),
+})

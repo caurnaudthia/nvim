@@ -97,6 +97,7 @@ local function generate_pallet_from_colorscheme()
     info = { hl = "DiagnosticInfo", default = color_map.blue.default },
     warn = { hl = "DiagnosticWarn", default = color_map.yellow.default },
     error = { hl = "DiagnosticError", default = color_map.red.default },
+    ok = { hl = "DiagnosticOk", default = color_map.green.default },
   }
 
   local pallet = {}
@@ -366,7 +367,7 @@ local c = {
   },
   lsp_status = {
     provider = function()
-      return vim.tbl_count(vim.lsp.buf_get_clients(0)) == 0 and "" or " ◦ "
+      return vim.tbl_count(vim.lsp.get_clients({ bufnr = 0 })) == 0 and "" or " ◦ "
     end,
     hl = "UserSLStatus",
     left_sep = { str = "", hl = "UserSLStatusBg", always_visible = true },
