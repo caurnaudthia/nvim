@@ -1,4 +1,11 @@
+-- object definition
 local module = {}
+
+-- local functions
+
+local function errStr(name, err)
+  return name .. ' failed to run. Stack traceback: \n' .. err
+end
 
 -- map a key given mode shortcut command
 function module.map(mode, shortcut, ...)
@@ -28,19 +35,19 @@ end
 -- protected call to setup function
 function module.protectedSetup(plugName, setup)
   local ok, plugin = pcall(require, plugName)
-  if ok then plugin.setup(setup) else print(plugName .. ' failed to load') end
+  if ok then plugin.setup(setup) else print(errStr(plugName, plugin)) end
   return ok, plugin
 end
 
 function module.protectedCall(scriptName)
   local ok, script = pcall(require, scriptName)
-  if not ok then print(scriptName .. ' failed to load') end
+  if not ok then print(errStr(scriptName, script)) end
   return ok, script
 end
 
-function module.protectedFuncCall(scriptName, ...)
-  local ok, output = pcall(scriptName, ...)
-  if ok then print(scriptName .. ' failed to load') end
+function module.protectedFuncCall(funcName, ...)
+  local ok, output = pcall(funcName, ...)
+  if ok then print(errStr(funcName, output)) end
   return ok, output
 end
 

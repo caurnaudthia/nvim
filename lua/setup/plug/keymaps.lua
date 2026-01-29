@@ -40,6 +40,7 @@ local pre = LEADER
 wk.add({
   concatWKEntry({pre, 'n'}, 'noh', 'clear search highlights'),
   concatWKEntry({pre, 'm'}, 'Mason', 'load lsp manager'),
+  concatWKEntry({pre, 'M'}, 'MarkdownPreview', 'preview markdown'),
   concatWKEntry({pre, 'p'}, 'Lazy home', 'plugin manager'),
   concatWKEntry({pre, 'z'}, 'ZenMode', 'focus mode'),
   concatWKEntry({pre, 'W'}, 'g<c-g>', 'get word count'),
@@ -63,6 +64,7 @@ wk.add({
   concatWKEntry({pre, 'j'}, 'lua vim.diagnostic.goto_next()', 'go to next diagnostic'),
   concatWKEntry({pre, 'F'}, 'lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})', 'go to previous error'),
   concatWKEntry({pre, 'J'}, 'lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}))', 'go to next error'),
+    concatWKEntry({pre, 's'}, 'Telescope diagnostics', 'search diagnostics'),n
 })
 
 -- tab keybinds
