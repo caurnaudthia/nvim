@@ -2,8 +2,11 @@
 local ok, funcs = pcall(require, 'functions.luarc')
 if not ok then print('luarc functions failed to load') end
 
+-- shortcuts
+local pc = funcs.protectedCall
+
 -- options
-require('setup.options')
+pc('setup.options')
 
 -- plugins
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -23,13 +26,13 @@ local lazy = require('lazy')
 lazy.setup(require('setup.plugins'))
 
 -- completion and language setup
-require('setup.plug.lscomp')
+pc('setup.plug.lscomp')
 
 -- navigation
-require('setup.plug.navigation')
+pc('setup.plug.navigation')
 
 -- keys setup and extensions keymap
-require('setup.plug.keymaps')
+pc('setup.plug.keymaps')
 
 -- apperance
-require('ui.setup')
+pc('ui.setup')

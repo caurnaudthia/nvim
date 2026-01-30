@@ -10,19 +10,27 @@ local _, coq = funcs.protectedCall('coq')
 -- language servers 
 funcs.protectedSetup('mason')
 funcs.protectedSetup('mason-lspconfig')
-vim.lsp.config('lua_ls',coq.lsp_ensure_capabilities({
+local coqCap = coq.lsp_ensure_capabilities({
   flags = {
     debounce_text_changes = 150
   }
-}))
+})
+
+vim.lsp.config('lua_ls', {
+  Lua = {
+    diagnostics = {
+      globoals = { "vim" },
+    },
+  },
+})
+vim.lsp.config('lua_ls', coqCap)
 vim.lsp.enable('lua_ls')
 
+vim.lsp.config('bashls', {filetypes = {'sh', 'zsh'}})
+vim.lsp.config('bashls', coqCap)
+vim.lsp.enable('bashls')
+
 -- customize signs to be something other than just text
-local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
 vim.diagnostic.config({
   signs = {
     text = {
