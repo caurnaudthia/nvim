@@ -40,7 +40,6 @@ local pre = LEADER
 wk.add({
   concatWKEntry({pre, 'n'}, 'noh', 'clear search highlights'),
   concatWKEntry({pre, 'm'}, 'Mason', 'load lsp manager'),
-  concatWKEntry({pre, 'M'}, 'MarkdownPreview', 'preview markdown'),
   concatWKEntry({pre, 'p'}, 'Lazy home', 'plugin manager'),
   concatWKEntry({pre, 'z'}, 'ZenMode', 'focus mode'),
   concatWKEntry({pre, 'W'}, 'g<c-g>', 'get word count'),
@@ -54,6 +53,14 @@ wk.add({
   concatWKEntry({pre, 'b'}, 'Telescope file_browser path=%:p:h select_buffer=true', 'telescope file browser'),
   concatWKEntry({pre, 'o'}, 'Oil --float', 'open file parent in floating window'),
   concatWKEntry({pre, 'p'}, 'lua require"telescope".extensions.project.project{}', 'open projects picker'),
+})
+
+-- preview keybinds
+pre = LEADER .. 'r'
+wk.add({
+  {pre, group = 'previews'},
+  concatWKEntry({pre, 'm'}, 'MarkdownPreview', 'preview markdown'),
+  concatWKEntry({pre, 'c'}, 'CsvViewToggle display_mode=border header_lnum=1', 'toggle csv mode'),
 })
 
 -- diagnostic keybinds
