@@ -23,6 +23,10 @@ local function concatWKEntry(target, mapping, desc, opts, override)
   return binding
 end
 
+local function unwrapOil(target)
+  return 'lua require"oil.actions".' .. target .. '.callback()'
+end
+
 local LEADER = '<leader>'
 local _, wk = funcs.protectedCall('which-key')
 
@@ -44,7 +48,7 @@ wk.add({
   concatWKEntry({pre, 'z'}, 'ZenMode', 'focus mode'),
   concatWKEntry({pre, 'W'}, 'g<c-g>', 'get word count'),
   concatWKEntry({pre, 'h'}, 'set tw=0', 'disable text autowrap'),
-  concatWKEntry({pre, 'R'}, 'e!', 'refresh Oil'),
+  concatWKEntry({pre, '?'}, 'lua require"which-key".show({ global = false })', 'buffer local keymaps wk'),
 })
 
 -- telescope / search / files keybinds
@@ -54,6 +58,17 @@ wk.add({
   concatWKEntry({pre, 'b'}, 'Telescope file_browser path=%:p:h select_buffer=true', 'telescope file browser'),
   concatWKEntry({pre, 'o'}, 'Oil --float', 'open file parent in floating window'),
   concatWKEntry({pre, 'p'}, 'lua require"telescope".extensions.project.project{}', 'open projects picker'),
+})
+
+-- oil keybinds
+pre = LEADER .. 'o'
+wk.add({
+  concatWKEntry({pre, 'r'}, unwrapOil('refresh'), 'refresh Oil'),
+  concatWKEntry({pre, 'h'}, unwrapOil('show_help'), 'show Oil help'),
+  concatWKEntry({pre, 'H'}, unwrapOil('toggle_hidden'), 'show hidden files'),
+  concatWKEntry({pre, 'p'}, unwrapOil('preview') .. 'preview', 'show Oil preview'),
+  concatWKEntry({pre, 'w'}, unwrapOil('close'), 'close Oil and return buffer'),
+
 })
 
 -- preview keybinds
@@ -72,7 +87,7 @@ wk.add({
   concatWKEntry({pre, 'j'}, 'lua vim.diagnostic.goto_next()', 'go to next diagnostic'),
   concatWKEntry({pre, 'F'}, 'lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})', 'go to previous error'),
   concatWKEntry({pre, 'J'}, 'lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.ERROR}))', 'go to next error'),
-    concatWKEntry({pre, 's'}, 'Telescope diagnostics', 'search diagnostics'),n
+  concatWKEntry({pre, 's'}, 'Telescope diagnostics', 'search diagnostics'),
 })
 
 -- tab keybinds
