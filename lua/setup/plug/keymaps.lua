@@ -44,6 +44,7 @@ wk.add({
   concatWKEntry({pre, 'z'}, 'ZenMode', 'focus mode'),
   concatWKEntry({pre, 'W'}, 'g<c-g>', 'get word count'),
   concatWKEntry({pre, 'h'}, 'set tw=0', 'disable text autowrap'),
+  concatWKEntry({pre, 'R'}, 'e!', 'refresh Oil'),
 })
 
 -- telescope / search / files keybinds

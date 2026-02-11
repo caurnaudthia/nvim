@@ -2,7 +2,11 @@
 local ok, funcs = pcall(require, 'functions.luarc')
 if not ok then print('luarc functions failed to load') end
 
-funcs.protectedSetup('oil')
+funcs.protectedSetup('oil', {
+  view_options = {
+    show_hidden = true;
+  }
+})
 local _, telescope = funcs.protectedSetup('telescope')
 
 telescope.load_extension('file_browser')
